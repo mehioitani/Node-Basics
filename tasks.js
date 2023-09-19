@@ -37,6 +37,10 @@ function onDataReceived(text) {
   if (text === 'quit\n' || text ==='exit\n') {
     quit();
   }
+  else if (text.startsWith('hello ')) {
+    const words = text.trim().substring(6); // Extract the argument after "hello"
+    hello(words);
+  }
   else if(text === 'hello\n'){
     hello();
   }
@@ -53,10 +57,10 @@ function onDataReceived(text) {
 /**
  * prints "unknown command"
  * This function is supposed to run when all other commands have failed
- *
- * @param  {string} c the text received
- * @returns {void}
- */
+*
+* @param  {string} c the text received
+* @returns {void}
+*/
 function unknownCommand(c){
   console.log('unknown command: "'+c.trim()+'"')
 }
@@ -64,11 +68,16 @@ function unknownCommand(c){
 
 /**
  * Says hello
- *
- * @returns {void}
- */
-function hello(){
-  console.log('hello!')
+*
+* @returns {void}
+*/
+
+function hello(myName){
+  if (myName) {
+    console.log(`hello ${myName}!`);
+  } else {
+    console.log('hello!');
+  }
 }
 
 
