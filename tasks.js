@@ -99,6 +99,7 @@ function help() {
   console.log('hello---say hello');
   console.log('quit---exit the application');
   console.log('exit---act like quit');
+  console.log('hello + text ---says hello + text');
 }
 
 // The following line starts the application
