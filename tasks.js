@@ -83,6 +83,7 @@ function quit(){
 }
 
 //help function
+// this function will execute when typing help and will print all these console.log to help you choose the option that you want
 
 function help() {
   console.log('help---print all commands');
