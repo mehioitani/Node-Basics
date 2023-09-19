@@ -38,7 +38,7 @@ function onDataReceived(text) {
     quit();
   }
   else if (text.startsWith('hello ')) {
-    const words = text.trim().substring(6); // Extract the argument after "hello"
+    const words = text.trim().substring(6); // Extend text after "hello"
     hello(words);
   }
   else if(text === 'hello\n'){
