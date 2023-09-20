@@ -33,7 +33,10 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
+var Tasks = [];
+
 function onDataReceived(text) {
+  const texts= text.split(" ")[0].trim();
   if (text === 'quit\n' || text ==='exit\n') {
     quit();
   }
@@ -46,6 +49,13 @@ function onDataReceived(text) {
   }
   else if (text ==='help\n'){
     help() 
+  }
+  // else if (texts==='add'){
+  //   var addedTasks = text.substring(3).trim();
+  //   add(addedTasks);
+  // }
+  else if (text==='list\n'){
+    list();
   }
   else{
     unknownCommand(text);
@@ -91,6 +101,16 @@ function quit(){
   process.exit();
 }
 
+
+function list(){
+  console.log('1 - [ ] buy bread\n 2 - [ ] do the exercises');
+  
+}
+
+function add(){
+
+}
+
 //help function
 // this function will execute when typing help and will print all these console.log to help you choose the option that you want
 
@@ -103,4 +123,4 @@ function help() {
 }
 
 // The following line starts the application
-startApp("Muhiedin")
+startApp("Muhieddine")
