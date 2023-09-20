@@ -50,10 +50,10 @@ function onDataReceived(text) {
   else if (text ==='help\n'){
     help() 
   }
-  // else if (texts==='add'){
-  //   var addedTasks = text.substring(3).trim();
-  //   add(addedTasks);
-  // }
+  else if (texts==='add'){
+    var addedTasks = text.substring(3).trim();
+    add(addedTasks);
+  }
   else if (text==='list\n'){
     list();
   }
@@ -103,12 +103,16 @@ function quit(){
 
 
 function list(){
-  console.log('1 - [ ] buy bread\n 2 - [ ] do the exercises');
+  for(let i=0;i<Tasks.length;i++){
+    console.log(i+1 + "[ ] " + Tasks[i])
+  }
+  // console.log('1 - [ ] buy bread\n 2 - [ ] do the exercises');
   
 }
 
-function add(){
-
+function add(task){
+  Tasks.push(task);
+  console.log('task added')
 }
 
 //help function
