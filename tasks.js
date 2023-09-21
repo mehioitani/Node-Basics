@@ -61,6 +61,10 @@ function onDataReceived(text) {
     const RemovedTask = text.substring(6).trim();
     remove(RemovedTask);
   }
+  else if(texts==='edit'){
+    var EditTask = text.substring(4).trim();
+    edit(EditTask);
+  }
   else{
     unknownCommand(text);
   }
@@ -139,6 +143,25 @@ function remove(taskNo){ //remove function to handle task removal
     console.log('task removed');
 }
 Tasks.splice(taskNo-1,1)
+}
+
+function edit(taskNo){
+  if (taskNo == "" || taskNo ==" "){
+    console.log("ERROR: you should specify a task")
+  }
+  else if (isNaN(taskNo[0])){
+    (Tasks[Tasks.length-1] = taskNo)
+    // console.log("ERROR: you should specify a number")
+  }
+
+  else{
+    (Tasks[taskNo][0]-1 === taskNo.substring(1).trim())
+  }
+  console.log(taskNo)// 1 drink coffee
+  console.log(taskNo[0]) // 1
+  console.log(Tasks[taskNo[0]-1]) // the item at index 1-1 => 0
+  console.log(taskNo.substring(1).trim())// this will give  u everything after the number => drink coffee
+  
 }
 
 //help function
