@@ -57,6 +57,9 @@ function onDataReceived(text) {
   else if (text==='list\n'){
     list();
   }
+  else if(text==='remove'){
+    remove(addedTasks)
+  }
   else{
     unknownCommand(text);
   }
@@ -104,15 +107,27 @@ function quit(){
 
 function list(){
   for(let i=0;i<Tasks.length;i++){
-    console.log(i+1 + "[ ] " + Tasks[i])
+    console.log(i + 1 + "[ ] " + Tasks[i])
   }
   // console.log('1 - [ ] buy bread\n 2 - [ ] do the exercises');
   
 }
 
 function add(task){
-  Tasks.push(task);
-  console.log('task added')
+  if(task == "" || task == " "){
+    console.log('you must enter a task')
+  }
+  else{
+    Tasks.push(task);
+    console.log('task added')
+  }
+  
+}
+
+
+function remove(task){
+  Tasks.pop(task);// array.length-1 (idea)
+  console.log('task removed')
 }
 
 //help function
