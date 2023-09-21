@@ -1,10 +1,9 @@
 const fs = require('fs');
-const filePath = process.argv[2]||'database.json';
-let tasks=[];
-if(!fs.existsSync(filePath)){
+const filePath = process.argv[2] || 'database.json';
+
+if (!fs.existsSync(filePath)) {
   fs.writeFileSync(filePath, '[]', 'utf8');
 }
-
 
 /**
  * Starts the application
@@ -17,19 +16,11 @@ if(!fs.existsSync(filePath)){
  * @returns {void}
  */
 function startApp(name){
-  try{
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
-  fs.readFile(filePath,(err,data)=>{
-    tasks=JSON.parse(data);
-    process.stdin.on('data', onDataReceived);
-    console.log(`Welcome to ${name}'s application!`)
-  console.log("--------------------")
-  })
-
-  }catch{
-    console.log(err);
-  }
+  process.stdin.on('data', onDataReceived);
+  console.log(`Welcome to ${name}'s application!`)
+  console.log("--------------------");
 }
 
 /**
@@ -76,8 +67,8 @@ function onDataReceived(text) {
     remove(RemovedTask);
   }
   else if(texts==='edit'){
-    var EditTask = text.substring(4).trim();
-    edit(EditTask);
+    var taskEdit = text.substring(4).trim();
+    edit(taskEdit);
   }
   else if (texts === 'check'){
     var toBeChecked = text.substring(5).trim();
@@ -123,9 +114,12 @@ function hello(myName){
  * @returns {void}
  */
 function quit(){
-  console.log('Quitting now, goodbye!')
-  process.exit();
-}
+  const jsonData = JSON.stringify(Tasks);
+  fs.writeFileSync(filePath, jsonData, 'utf8');
+  
+    console.log('Quitting now, goodbye!')
+    process.exit();
+  }
 
 // tasks listing
 function list(){
@@ -140,7 +134,7 @@ function list(){
 // function to handle task adding
 function add(task){
   if(task == "" || task == " "){ //if there is a space or only the add is entered without the task it will throw an error
-    console.log('you must enter a task');
+    console.log('Error : you must enter a task');
     return;
   }
   else{
@@ -156,35 +150,41 @@ function remove(taskNo){ //remove function to handle task removal
   console.log(taskNo);
   if(taskNo == "" || taskNo == " "){ // if there is empty task it no will be assigned to zero
     taskNo = 0;
-    console.log(taskNo+ 'last task removed');
+    console.log('last task removed');
   }
-  else if(taskNo > Tasks.length){ // if a task number is invalid it will throw an error and cannot be removed
+  else if(taskNo > Tasks.list.length){ // if a task number is invalid it will throw an error and cannot be removed
     console.log("ERROR: task number doesn't exist");}
   else {
     console.log('task removed');
 }
-Tasks.splice(taskNo-1,1)
+Tasks.list.splice(taskNo-1,1);
 }
 
 //function to handle tasks editing
-function edit(taskNo){
-  if (taskNo == "" || taskNo ==" "){
+function edit(taskEdit){
+  if (taskEdit == "" || taskEdit ==" "){
     console.log("ERROR: you should specify a task")
   }
-  else if (isNaN(taskNo[0])){ // if you are adding a NEW TEXT(NOT A NUMBER) next to the edit word the task will be added
-    (Tasks[Tasks.length-1] = taskNo)
-    // console.log("ERROR: you should specify a number")
+  else if (isNaN(taskEdit[0])){
+    console.log(Tasks.list[Tasks.list.length-1].name) // if you are adding a NEW TEXT(NOT A NUMBER) next to the edit word the task will be added
+    Tasks.list[Tasks.list.length-1].name = taskEdit;
+    console.log('task edited:  '+ Tasks.list.name);
+    
   }
-
+  else if(taskEdit[0] >Tasks.list.length)
+{
+  console.log("ERROR: you should specify a task number")
+}
   else{
-    (Tasks[taskNo][0]-1 === taskNo.substring(1).trim())// adding a task number to edit
+    Tasks.list[taskEdit[0]-1].name = taskEdit.substring(1).trim();// adding a task number to edit
   }
-  console.log(taskNo)// 1 drink coffee
-  console.log(taskNo[0]) // 1
-  console.log(Tasks[taskNo[0]-1]) // the item at index 1-1 => 0
-  console.log(taskNo.substring(1).trim())// this will give  u everything after the number => drink coffee
+  console.log(taskEdit)// 1 drink coffee
+  console.log(taskEdit[0]) // 1
+  console.log(Tasks[taskEdit[0]-1]) // the item at index 1-1 => 0
+  console.log(taskEdit.substring(1).trim())// this will give  u everything after the number => drink coffee
   
 }
+
 
 //function to check/uncheck tasks
 function check(num){
