@@ -33,7 +33,7 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
-var Tasks = [];
+var Tasks = {"list":[]};
 
 function onDataReceived(text) {
   const texts= text.split(" ")[0].trim();
@@ -65,6 +65,10 @@ function onDataReceived(text) {
     var EditTask = text.substring(4).trim();
     edit(EditTask);
   }
+  else if (texts === 'check'){
+    var toBeChecked = text.substring(5).trim();
+    check(toBeChecked);
+  }
   else{
     unknownCommand(text);
   }
@@ -89,7 +93,7 @@ function unknownCommand(c){
 *
 * @returns {void}
 */
-
+//function if i add a string after hello it will display it "hello + string entered"
 function hello(myName){
   if (myName) {
     console.log(`hello ${myName}!`);
@@ -111,24 +115,27 @@ function quit(){
 
 // tasks listing
 function list(){
-  for(let i=0;i<Tasks.length;i++){
-    console.log(i + 1 + "[ ] " + Tasks[i])
-  }
-  // console.log('1 - [ ] buy bread\n 2 - [ ] do the exercises');
-  
-}
-// function to handle task adding
-function add(task){
-  if(task == "" || task == " "){
-    console.log('you must enter a task')
-  }
-  else{
-    Tasks.push(task);
-    console.log('task added')
+  for(let i=0;i<Tasks.list.length;i++){ // loop to iterate over tasks list
+    if(Tasks.list[i].status == false){
+      console.log(i+1 + "[ ]" + Tasks.list[i].name);
+    }else{console.log(i+1 + "[✓]" + Tasks.list[i].name);}
   }
   
 }
 
+// function to handle task adding
+function add(task){
+  if(task == "" || task == " "){ //if there is a space or only the add is entered without the task it will throw an error
+    console.log('you must enter a task');
+    return;
+  }
+  else{
+    Tasks.list.push({name:task,status:false}); //it will add the task with status unchecked as default
+    console.log("list of task ",Tasks.list)
+    console.log('task: '+ task + ' Task Added');
+  }
+  
+}
 
 function remove(taskNo){ //remove function to handle task removal
   
@@ -137,7 +144,7 @@ function remove(taskNo){ //remove function to handle task removal
     taskNo = 0;
     console.log(taskNo+ 'last task removed');
   }
-  else if(taskNo > Tasks.length){
+  else if(taskNo > Tasks.length){ // if a task number is invalid it will throw an error and cannot be removed
     console.log("ERROR: task number doesn't exist");}
   else {
     console.log('task removed');
@@ -145,23 +152,43 @@ function remove(taskNo){ //remove function to handle task removal
 Tasks.splice(taskNo-1,1)
 }
 
+//function to handle tasks editing
 function edit(taskNo){
   if (taskNo == "" || taskNo ==" "){
     console.log("ERROR: you should specify a task")
   }
-  else if (isNaN(taskNo[0])){
+  else if (isNaN(taskNo[0])){ // if you are adding a NEW TEXT(NOT A NUMBER) next to the edit word the task will be added
     (Tasks[Tasks.length-1] = taskNo)
     // console.log("ERROR: you should specify a number")
   }
 
   else{
-    (Tasks[taskNo][0]-1 === taskNo.substring(1).trim())
+    (Tasks[taskNo][0]-1 === taskNo.substring(1).trim())// adding a task number to edit
   }
   console.log(taskNo)// 1 drink coffee
   console.log(taskNo[0]) // 1
   console.log(Tasks[taskNo[0]-1]) // the item at index 1-1 => 0
   console.log(taskNo.substring(1).trim())// this will give  u everything after the number => drink coffee
   
+}
+
+//function to check/uncheck tasks
+function check(num){
+  if(num == "" || num == " "){ //if number of task to be checked not written
+    console.log("ERROR: enter a number to check");
+  }
+  else if(num > Tasks.list.length){// if number of task to be checked not available
+    console.log("ERROR: task number invalid");
+  }
+  else{
+    if(Tasks.list[num-1].status == false){ // assign it to true when its checked
+      Tasks.list[num-1].status = true;
+    }
+    else{
+      Tasks.list[num-1].status = false;// assign it to false when its unchecked
+    }
+
+  }console.log(Tasks.list)
 }
 
 //help function
@@ -175,6 +202,8 @@ function help() {
   console.log('hello + text ---says hello + text');
   console.log('remove---It will remove the last added task');
   console.log('remove + no of task---It will remove the specified task'); 
+  console.log('check + number of task---It will mark the task as done');
+  console.log('re-check + number of task---It will mark the task as undone');
 }
 
 // The following line starts the application
