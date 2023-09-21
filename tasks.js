@@ -57,8 +57,9 @@ function onDataReceived(text) {
   else if (text==='list\n'){
     list();
   }
-  else if(text==='remove'){
-    remove(addedTasks)
+  else if(texts==='remove'){
+    const RemovedTask = text.substring(6).trim();
+    remove(RemovedTask);
   }
   else{
     unknownCommand(text);
@@ -104,7 +105,7 @@ function quit(){
   process.exit();
 }
 
-
+// tasks listing
 function list(){
   for(let i=0;i<Tasks.length;i++){
     console.log(i + 1 + "[ ] " + Tasks[i])
@@ -112,7 +113,7 @@ function list(){
   // console.log('1 - [ ] buy bread\n 2 - [ ] do the exercises');
   
 }
-
+// function to handle task adding
 function add(task){
   if(task == "" || task == " "){
     console.log('you must enter a task')
@@ -125,9 +126,17 @@ function add(task){
 }
 
 
-function remove(task){
-  Tasks.pop(task);// array.length-1 (idea)
-  console.log('task removed')
+function remove(taskNo){ //remove function to handle task removal
+  
+  console.log(taskNo);
+  if(taskNo == "" || taskNo == " "){ // if there is empty task it no will be assigned to zero
+    taskNo = 0;
+    console.log(taskNo+ 'last task removed');
+  }
+  else {
+    console.log('task removed');
+}
+Tasks.splice(taskNo-1,1)
 }
 
 //help function
@@ -139,6 +148,8 @@ function help() {
   console.log('quit---exit the application');
   console.log('exit---act like quit');
   console.log('hello + text ---says hello + text');
+  console.log('remove---It will remove the last added task');
+  console.log('remove + no of task---It will remove the specified task');
 }
 
 // The following line starts the application
