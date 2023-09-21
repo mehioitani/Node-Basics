@@ -1,3 +1,10 @@
+const fs = require('fs');
+const filePath = process.argv[2]||'database.json';
+let tasks=[];
+if(!fs.existsSync(filePath)){
+  fs.writeFileSync(filePath, '[]', 'utf8');
+}
+
 
 /**
  * Starts the application
@@ -10,13 +17,20 @@
  * @returns {void}
  */
 function startApp(name){
+  try{
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
-  process.stdin.on('data', onDataReceived);
-  console.log(`Welcome to ${name}'s application!`)
+  fs.readFile(filePath,(err,data)=>{
+    tasks=JSON.parse(data);
+    process.stdin.on('data', onDataReceived);
+    console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
-}
+  })
 
+  }catch{
+    console.log(err);
+  }
+}
 
 /**
  * Decides what to do depending on the data that was received
