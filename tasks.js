@@ -149,7 +149,7 @@ function help() {
   console.log('exit---act like quit');
   console.log('hello + text ---says hello + text');
   console.log('remove---It will remove the last added task');
-  console.log('remove + no of task---It will remove the specified task');
+  console.log('remove + no of task---It will remove the specified task'); 
 }
 
 // The following line starts the application
