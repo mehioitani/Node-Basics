@@ -133,6 +133,8 @@ function remove(taskNo){ //remove function to handle task removal
     taskNo = 0;
     console.log(taskNo+ 'last task removed');
   }
+  else if(taskNo > Tasks.length){
+    console.log("ERROR: task number doesn't exist");}
   else {
     console.log('task removed');
 }
